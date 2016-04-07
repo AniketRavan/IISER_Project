@@ -4,6 +4,12 @@
  % Edge Detection using Sobel
  figure,
  for i = 6
+     if i < 10
+         fname = ['40x-dic-egfp-pc12-ngfxy0',num2str(i),'c2.tif'];
+     end
+     if i >= 10
+         fname = ['40x-dic-egfp-pc12-ngfxy',num2str(i),'c2.tif'];
+     end
      info = imfinfo(fname);
      number_of_images = numel(info);
      imfull = imread(fname,1);
