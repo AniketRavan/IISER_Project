@@ -2,6 +2,7 @@
 % Github link: https://github.com/AniketRavan/IISER-Pune
 % Last modified: 4/7/16
 figure,
+
 for i = 6
     if i < 10
         fname = ['40x-dic-egfp-pc12-ngfxy0',num2str(i),'c2.tif'];
@@ -30,5 +31,6 @@ for i = 6
         area(k) = rprop.Area;
         perim(k) = rprop.Perimeter;
         subplot(4,2,k), imshow(imrgb);
+        title(num2str(k));
     end
 end
