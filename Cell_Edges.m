@@ -3,7 +3,7 @@
  % Last modified: 4/7/16
  % Edge Detection using Sobel
  figure,
- for i = 6
+ for i = 1
      if i < 10
          fname = ['40x-dic-egfp-pc12-ngfxy0',num2str(i),'c2.tif'];
      end
