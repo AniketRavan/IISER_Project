@@ -38,6 +38,7 @@
          imrgb = repmat(im,[1 1 3]);
          imrgb(:,:,2:3) = imrgb(:,:,2:3).*edg;
          imrgb(imrgb(:,:,3) == 0) = 1;
-          subplot(4,2,k), imshow(imrgb);
+         subplot(4,2,k), imshow(imrgb);
+         title(num2str(k));
       end
   end
