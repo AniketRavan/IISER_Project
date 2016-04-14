@@ -14,13 +14,16 @@ for i = 6
     number_of_images = numel(info);
     imfull = imread(fname,1);
     imshow(mat2gray(imfull));
-    [x,y] = ginput(1);
+    % Crop ROI around the cell
+    [x,y] = ginput(1); % Click near the center of the cell
     x = round(x); y = round(y);
-    %Read TIF Stack
+    % Read TIF Stack
     for k = 1:number_of_images
         imfull = imread(fname,k);
-        im = imfull(y-120:y+120,x-120:x+120);
-        im = mat2gray(im);
+        img = imfull(y-120:y+120,x-120:x+120);
+        img = double(img);
+        %im = img/I(k);
+        im = mat2gray(img);
         im = medfilt2(im,[10,10]);
         % Edge detection
         thresh = graythresh(im);
