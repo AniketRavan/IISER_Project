@@ -1,7 +1,9 @@
 % Written by Aniket Ravan
-% Generates Koch's snowflake
+% Generates Koch's snowflake starting with any arbitrary configuration of
+% points 
 % Last modified : 4/26/2016
-init = [0, 1];   % initial pair of co-ordinates
+init = [0, 1, 0];   % initial configuration of points. To be written in cyclic
+% order for a closed figure
 len = length(init);
 % Limits of axes for plotting later
 arg = abs(init(2) - init(1))*0.86;
