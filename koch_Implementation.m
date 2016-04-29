@@ -3,8 +3,8 @@
 % points 
 % Last modified : 4/26/2016
 clear all
-scale = 3000;
-init = [0, scale*i, scale*(1 + i), scale*1, 0];   % initial configuration of points. To be written in cyclic
+scale = 500;
+init = [0, i, scale*(1 + 1i), scale*1, 0];   % initial configuration of points. To be written in cyclic
 % order for a closed figure
 len = length(init);
 % Limits of axes for plotting later
@@ -13,7 +13,7 @@ lowX = min(real(init)) - arg;
 highX = max(real(init)) + arg;
 lowY = min(imag(init)) - arg;
 highY = max(imag(init)) + arg;
-for i = 1:9
+for i = 1:10
     i
     if (i == 1)
         plot(real(init), imag(init));
@@ -44,9 +44,9 @@ for i = 1:9
     pause(2); % pauses for 2 seconds
 end
 % Converting the last iteration to a 2-D image matrix
-a = iter{7};
+a = iter{9};
 a = a + (abs(sign(min(real(a)))) - sign(min(real(a))))/2*abs(min(real(a))) + (abs(sign(min(imag(a)))) - sign(min(imag(a))))/2*1i*abs(min(imag(a))) + 1 + 1i; % Fitting plot in the first quadrant
-im = zeros(round(max(imag(a))),round(max(real(a))));
+im = zeros(round(2*max(imag(a))),round(2*max(real(a))));
 for j = 1:length(a)
 im(round(real(a(j))),round(imag(a(j)))) = 1;
 end
