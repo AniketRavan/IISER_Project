@@ -6,9 +6,9 @@ v = VideoWriter('POTTS_Circle1.avi');
 open(v);
 theta = 0:0.01:2*pi-0.01;
 side = 60; % Radius of the circle
-im = zeros(200,200);
-x = 100 - 78 : 100 + 80;
-y = 100 - 78 : 100 + 80;
+im = zeros(100,100);
+x = 50 - 25 : 50 + 25;
+y = 50 - 25 : 50 + 25;
 % for i = 1:length(x)
 %     im(y(i),x(i)) = 1;
 % end
@@ -23,6 +23,7 @@ iterations = 1000000;
 im = bwperim(im);
 imshow(im);
 %[x, y] = find(im == 1);
+idx = 1;
 for j = 1:iterations
     j;
     y = 5:3:5+3*floor(size(im,2)/3 - 5);
@@ -73,7 +74,7 @@ for j = 1:iterations
     p;
     'K';
     Hamiltonian = [0];
-    idx = 1;
+    
     if (j > 1)
         if (Hamiltonian(length(Hamiltonian)) ~= H)
             Hamiltonian(idx) = H;
