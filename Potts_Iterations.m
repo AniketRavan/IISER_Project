@@ -1,6 +1,6 @@
-Temperature = [100, 500, 1000, 2000];
-K.k1 = [1, 50, 100, 100];
-K.k2 = [100, 100, 500, 20000];
+Temperature = [100, 1000, 2000];
+K.k1 = [1, 50, 100];
+K.k2 = [100, 100, 500];
 iterations = 220000;
 for t = 1:length(Temperature) 
     for k = 1:length(K.k1)

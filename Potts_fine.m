@@ -30,9 +30,8 @@ for j = 1:iterations
     y = 2:size(im,1) - 1;
     x = 2:size(im,2) - 1;
     im = imfill(im,'holes');
-    r = regionprops(im, 'Area','MajorAxisLength','MinorAxisLength');
-    A = r.Area; % Area of the (i - 1)th image
- 
+    r = regionprops(im, 'Area','MajorAxisLength','MinorAxisLength','Perimeter');
+    A = r.Area; % Area of the (i - 1)th image 
     % Selecting a random pixel from the image who's neighbour will undergo
     % an update
     xrand = x(randi(length(x)));
@@ -58,15 +57,16 @@ for j = 1:iterations
         nrandx = vector(randi([1 3]));
         nrandy = vector(randi([1 3]));
     end
-    [Y,X] = find(bwperim(im) == 1);
-    L = length(Y);
+    %[Y,X] = find(bwperim(im) == 1);  
+    L = r.Perimeter;
     n1 = bwconncomp(im); % To find the number of blobs
     im1 = im;
     im1(yrand + nrandy,xrand + nrandx) = im1(yrand, xrand);
     [y1,x1] = find(bwperim(im1) == 1);
-    L2 = length(x1);
-    r1 = regionprops(bwareaopen(im1,100), 'Area','MajorAxisLength','MinorAxisLength');
+    %L2 = length(x1);
+    r1 = regionprops(bwareaopen(im1,100), 'Area','MajorAxisLength','MinorAxisLength','Perimeter');
     %ratio1 = max(r1.MajorAxisLength)/min(r1.MinorAxisLength);
+    L2 = r1.Perimeter;
     n2 = bwconncomp(im1); % To find the number of connected blobs
     A1 = r1.Area;    % Area after transition has been made
     H = k1*(A - Aeq)^2 + k2*(L - 2*pi*rad)^2;
