@@ -27,7 +27,6 @@ idx = 1;
 Hamiltonian = [0];
 frame = 1;
 for j = 1:iterations
-    j;
     y = 2:size(im,1) - 1;
     x = 2:size(im,2) - 1;
     im = imfill(im,'holes');
