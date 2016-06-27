@@ -17,8 +17,8 @@ y = 50 - side/2 : 50 + side/2;
 im(y(:),x(:)) = 1;
 im = imfill(im,'holes');
 %imshow(im);
-eq = regionprops(im,'Area');
-rad = 4*side/2/pi ;
+eq = regionprops(im,'Area','Perimeter');
+rad = eq.Perimeter/2/pi;
 Aeq = pi*rad*rad;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %iterations = 80000;
@@ -27,6 +27,9 @@ idx = 1;
 Hamiltonian = [0];
 frame = 1;
 for j = 1:iterations
+    if (mod(j, 1000) == 0)
+        j
+    end
     y = 2:size(im,1) - 1;
     x = 2:size(im,2) - 1;
     im = imfill(im,'holes');
@@ -111,13 +114,14 @@ for j = 1:iterations
     
 end
 close(v);
-plot(Hamiltonian);
+vec = 1:10:length(Hamiltonian);
+plot(vec,Hamiltonian(vec));
 title('Hamiltonian');
 savefig(['Ham_',video_title,'.fig']);
-plot(Length);
+plot(vec, Length(vec));
 title('Length');
 savefig(['Length',video_title,'.fig']);
-plot(Area);
+plot(vec,Area(vec));
 title('Area');
 savefig(['Area',video_title,'.fig']);
 close all;
