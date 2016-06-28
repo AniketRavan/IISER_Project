@@ -19,7 +19,17 @@ im = imfill(im,'holes');
 %imshow(im);
 eq = regionprops(im,'Area','Perimeter');
 rad = eq.Perimeter/2/pi;
-Aeq = pi*rad*rad;
+temp = zeros(100, 100);
+xc = round(50 + rad*cos(theta));
+yc = round(50 + rad*sin(theta));
+for i = 1:length(theta)
+    temp(yc(i), xc(i)) = 1;
+end
+temp = imfill(temp,'holes');
+cr = regionprops(temp, 'Area','Perimeter');
+global Aeq Leq;
+Aeq = cr.Area;
+Leq = cr.Perimeter;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %iterations = 80000;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,6 +44,7 @@ for j = 1:iterations
     x = 2:size(im,2) - 1;
     im = imfill(im,'holes');
     r = regionprops(im, 'Area','MajorAxisLength','MinorAxisLength','Perimeter');
+    global A L;
     A = r.Area; % Area of the (i - 1)th image 
     % Selecting a random pixel from the image who's neighbour will undergo
     % an update
@@ -72,8 +83,8 @@ for j = 1:iterations
     L2 = r1.Perimeter;
     n2 = bwconncomp(im1); % To find the number of connected blobs
     A1 = r1.Area;    % Area after transition has been made
-    H = k1*(A - Aeq)^2 + k2*(L - 2*pi*rad)^2;
-    H1 = k1*(A1 - Aeq)^2 + k2*(L2 - 2*pi*rad)^2;
+    H = k1*(A - Aeq)^2 + k2*(L - Leq)^2;
+    H1 = k1*(A1 - Aeq)^2 + k2*(L2 - Leq)^2;
     delH = H1 - H;
     if (n1.NumObjects ~= n2.NumObjects)
         delH = Temperature*1e20;
@@ -91,9 +102,12 @@ for j = 1:iterations
             Hamiltonian(idx) = H1;
             Area(idx) = A;
             Length(idx) = L;
+            Area(length(Area));
+            Length(length(Length));
             prob(idx) = p;
             Rd(idx) = rd;
             Delh(idx) = delH;
+            circ(idx) = r1.MajorAxisLength/r1.MinorAxisLength;
             idx = idx + 1;
             if (mod(idx,20) == 0)
                 if (length(Hamiltonian) > 1)
@@ -115,13 +129,25 @@ for j = 1:iterations
 end
 close(v);
 vec = 1:10:length(Hamiltonian);
-plot(vec,Hamiltonian(vec));
+plot(vec,Hamiltonian(vec)/Temperature);
 title('Hamiltonian');
 savefig(['Ham_',video_title,'.fig']);
 plot(vec, Length(vec));
+hold on 
+plot(vec, Leq);
+hold off
 title('Length');
 savefig(['Length',video_title,'.fig']);
 plot(vec,Area(vec));
+hold on 
+plot(vec, Aeq);
+hold off
 title('Area');
 savefig(['Area',video_title,'.fig']);
+plot(vec, circ(vec));
+hold on 
+plot(vec, 1);
+hold off
+title('Circularity');
+savefig(['Circularity',video_title,'.fig']);
 close all;
