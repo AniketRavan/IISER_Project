@@ -7,12 +7,11 @@ f3 = figure;
 for k = 1:length(iter)
     a = iter{k};
     k
+    % Scaling the co-ordinates to fit the snowflake at the center of the
+    % image window
     a = a + (abs(sign(min(real(a)))) - sign(min(real(a))))/2*abs(min(real(a))) + (abs(sign(min(imag(a)))) - sign(min(imag(a))))/2*1i*abs(min(imag(a))) + 1 + 1i; % Fitting plot in the first quadrant
     im = zeros(round(max(imag(a))),round(max(real(a))));
     imf = roipoly(im,real(a),imag(a));
-%     for j = 1:length(a)
-%         im(round(imag(a(j))),round(real(a(j)))) = 1;
-%     end
     im = bwperim(imf);
     dim(k) = hausDim(im);
     dimf(k) = hausDim(imf);
