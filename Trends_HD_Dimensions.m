@@ -21,3 +21,5 @@ end
 figure(f3); plot(1:length(dim),dim,'Marker','o','Color','k');
 hold on 
 plot(1:length(dimf),dimf,'Marker','x','Color','r');
+xlabel('Iterations');
+ylabel('Hausdorff Dimension');
