@@ -3,6 +3,7 @@ function [] = Potts_fine(Temperature, k1, k2, iterations)
 % First attempt at Cellular Potts model
 % Last modified 6/24/2016
 % A lattice-cell is defined by a 3x3 square
+tic;
 video_title = [num2str(Temperature),'_',num2str(k1),'_',num2str(k2)];
 v = VideoWriter(video_title);
 open(v);
@@ -37,9 +38,6 @@ idx = 1;
 Hamiltonian = [0];
 frame = 1;
 for j = 1:iterations
-    if (mod(j, 1000) == 0)
-        j
-    end
     y = 2:size(im,1) - 1;
     x = 2:size(im,2) - 1;
     im = imfill(im,'holes');
@@ -98,37 +96,34 @@ for j = 1:iterations
 %     if (delH ~= 0)
 %         break;
 %     end
-    if (j > 1)
-            Hamiltonian(idx) = H1;
-            Area(idx) = A;
-            Length(idx) = L;
-            Area(length(Area));
-            Length(length(Length));
-            prob(idx) = p;
-            Rd(idx) = rd;
-            Delh(idx) = delH;
-            circ(idx) = r1.MajorAxisLength/r1.MinorAxisLength;
+    if (j > 1)            
             idx = idx + 1;
             if (mod(idx,20) == 0)
+                Hamiltonian(idx/20) = H1;
+                Area(idx/20) = A;
+                Length(idx/20) = L;
+                Area(length(Area));
+                Length(length(Length));
+                circ(idx/20) = r1.MajorAxisLength/r1.MinorAxisLength;
                 if (length(Hamiltonian) > 1)
                      imshow(im);
                      hold('on');
                      plot(xrand, yrand,'Marker', 'o', 'MarkerSize', 5, 'LineStyle', 'None','Color', 'y');
                      drawnow;
-                     hold('off');
-                end       
-                title('Hamiltonian');
-                drawnow;
-                f = getframe;
-                writeVideo(v, f);
-                cla
+                     hold('off');   
+                     title('Hamiltonian');
+                     drawnow;
+                     f = getframe;
+                     writeVideo(v, f);
+                     cla
+                end
             end
         end      
     end
     
 end
 close(v);
-vec = 1:10:length(Hamiltonian);
+vec = 1:length(Hamiltonian);
 plot(vec,Hamiltonian(vec)/Temperature);
 title('Hamiltonian');
 savefig(['Ham_',video_title,'.fig']);
@@ -151,3 +146,12 @@ hold off
 title('Circularity');
 savefig(['Circularity',video_title,'.fig']);
 close all;
+xlswrite([video_title,'.xls'], {'Hamiltonian'}, 'Range', 'A1:A1');
+xlswrite([video_title,'.xls'], Hamiltonian(:), 'Range', ['A2:A',num2str(1 + length(Hamiltonian))]);
+xlswrite([video_title,'.xls'], {'Perimeter'}, 'Range', 'B1:B1');
+xlswrite([video_title,'.xls'], Length(:), 'Range', ['B2:B',num2str(1 + length(Length))]);
+xlswrite([video_title,'.xls'], {'Area'}, 'Range', 'C1:C1');
+xlswrite([video_title,'.xls'], Area(:), 'Range', ['C2:C',num2str(1 + length(Area))]);
+xlswrite([video_title,'.xls'], {'Circularity'}, 'Range', 'D1:D1');
+xlswrite([video_title,'.xls'], circ(:), 'Range', ['D2:D',num2str(1 + length(circ))]);
+toc;
